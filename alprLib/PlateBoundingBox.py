@@ -5,6 +5,8 @@ class PlateBoundingBox:
         self.xml_path = xml_path
         self.tree = ET.parse(xml_path)
         self.root = self.tree.getroot()
+
+        self.image_name = self.root.find('filename').text
         
         bbox = self.root.find('object').find('bndbox')
         self.xmin = int(bbox.find('xmin').text)
@@ -19,6 +21,7 @@ class PlateBoundingBox:
     def describe(self):
         print("PlateBoundingBox")
         print("xml_path: {}".format(self.xml_path))
+        print("image_name: {}".format(self.image_name))
         print("xmin: {}".format(self.xmin))
         print("ymin: {}".format(self.ymin))
         print("xmax: {}".format(self.xmax))
