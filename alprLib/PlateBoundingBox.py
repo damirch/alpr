@@ -18,10 +18,22 @@ class PlateBoundingBox:
         self.center = (self.xmin + self.width/2, self.ymin + self.height/2)
         self.area = self.width * self.height
 
+        # find original image size
+        size = self.root.find('size')
+        self.image_width = int(size.find('width').text)
+        self.image_height = int(size.find('height').text)
+
+        self.width01 = self.width / self.image_width
+        self.height01 = self.height / self.image_height
+
+        self.center01 = (self.center[0] / self.image_width, self.center[1] / self.image_height)
+
     def describe(self):
         print("PlateBoundingBox")
         print("xml_path: {}".format(self.xml_path))
         print("image_name: {}".format(self.image_name))
+        print("image_width: {}".format(self.image_width))
+        print("image_height: {}".format(self.image_height))
         print("xmin: {}".format(self.xmin))
         print("ymin: {}".format(self.ymin))
         print("xmax: {}".format(self.xmax))
