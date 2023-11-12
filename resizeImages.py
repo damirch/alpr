@@ -11,7 +11,7 @@ input_dir = './archive/images/'
 output_dir = './archive/images_resized/'
 
 # Desired dimensions
-new_width, new_height = 1280, 720
+new_width, new_height = 512, 320 #1280, 720
 
 # Ensure output directory exists
 os.makedirs(output_dir, exist_ok=True)
