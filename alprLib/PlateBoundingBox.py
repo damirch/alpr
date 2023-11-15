@@ -1,7 +1,13 @@
 import xml.etree.cElementTree as ET
 
 class PlateBoundingBox:
-    def __init__(self, xml_path: str):
+    def __init__(self, **kwargs):
+        if 'xml_path' in kwargs:
+            self.load_from_xml(kwargs['xml_path'])
+        else:
+            raise Exception("nothing to load")
+
+    def load_from_xml(self, xml_path: str):
         self.xml_path = xml_path
         self.tree = ET.parse(xml_path)
         self.root = self.tree.getroot()
