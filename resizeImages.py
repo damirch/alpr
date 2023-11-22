@@ -1,7 +1,3 @@
-# perform the following using python3
-#mkdir ./archive/images_resized
-#mogrify -resize 1280x720 ./archive/images/* -path ./archive/images_resized -monitor
-
 from PIL import Image
 import os
 import numpy as np
