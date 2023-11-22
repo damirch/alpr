@@ -6,6 +6,8 @@ Automatic License Place Recognition.
 
 We use the following dataset: https://www.kaggle.com/datasets/andrewmvd/car-plate-detection/data
 
+Additional dataset for EU plates: https://github.com/RobertLucian/license-plate-dataset
+
 Images with problem: 10, 101, 185
 
 Step 1: Detect the license plate in the image using Yolo Tiny v4.
