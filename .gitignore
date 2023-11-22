@@ -166,3 +166,5 @@ darknet
 *.zip
 
 UFPR-ALPR dataset
+
+eu_dataset
