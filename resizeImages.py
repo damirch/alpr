@@ -3,8 +3,8 @@ import os
 import numpy as np
 
 # Input and output directories
-input_dir = './archive/images/'
-output_dir = './archive/images_resized/'
+input_dir = './eu_dataset/images/'
+output_dir = './eu_dataset/images_resized/'
 
 # Desired dimensions
 new_width, new_height = 512, 320 #1280, 720
@@ -23,6 +23,7 @@ for file in files:
 
             # Resize using PIL
             resized_img = img.resize((new_width, new_height))
+            resized_img = resized_img.convert('RGB')
 
             # Convert to numpy array for saving
             img_array = np.array(resized_img)
