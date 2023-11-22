@@ -1,52 +1,58 @@
 import xml.etree.cElementTree as ET
 
 class PlateBoundingBox:
-    def __init__(self, **kwargs):
-        if 'xml_path' in kwargs:
-            self.load_from_xml(kwargs['xml_path'])
-        else:
-            raise Exception("nothing to load")
-
-
-        self.width01 = self.width / self.image_width
-        self.height01 = self.height / self.image_height
-
-        self.center01 = (self.center[0] / self.image_width, self.center[1] / self.image_height)
-
-    def load_from_xml(self, xml_path: str):
-        self.xml_path = xml_path
-        self.tree = ET.parse(xml_path)
-        self.root = self.tree.getroot()
-
-        self.image_name = self.root.find('filename').text
-        
-        bbox = self.root.find('object').find('bndbox')
-        self.xmin = int(float(bbox.find('xmin').text))
-        self.ymin = int(float(bbox.find('ymin').text))
-        self.xmax = int(float(bbox.find('xmax').text))
-        self.ymax = int(float(bbox.find('ymax').text))
-        self.width = self.xmax - self.xmin
-        self.height = self.ymax - self.ymin
-        self.center = (self.xmin + self.width/2, self.ymin + self.height/2)
+    def __init__(self, xmin, ymin, xmax, ymax, image_width, image_height):
+        self.xmin = xmin
+        self.ymin = ymin
+        self.xmax = xmax
+        self.ymax = ymax
+ 
+        self.width = xmax - xmin
+        self.height = ymax - ymin
+        self.center = (xmin + self.width/2, ymin + self.height/2)
         self.area = self.width * self.height
+ 
+        self.width01 = self.width / image_width
+        self.height01 = self.height / image_height
+
+        self.center01 = (self.center[0] / image_width, self.center[1] / image_height)
+
+    @staticmethod
+    def load_from_xml(xml_path: str):
+        xml_path = xml_path
+        tree = ET.parse(xml_path)
+        root = tree.getroot()
+
+        image_name = root.find('filename').text
+        
+        bboxes = []
+        for obj in root.findall('object'):
+            bbox = obj.find('bndbox')
+            xmin = int(float(bbox.find('xmin').text))
+            ymin = int(float(bbox.find('ymin').text))
+            xmax = int(float(bbox.find('xmax').text))
+            ymax = int(float(bbox.find('ymax').text))
+        
+            bboxes.append((xmin, ymin, xmax, ymax))
 
         # find original image size
-        size = self.root.find('size')
-        self.image_width = int(size.find('width').text)
-        self.image_height = int(size.find('height').text)
+        size = root.find('size')
+        image_width = int(size.find('width').text)
+        image_height = int(size.find('height').text)
+
+        return [PlateBoundingBox(xmin, ymin, xmax, ymax, image_width, image_height) for xmin, ymin, xmax, ymax in bboxes]
 
     def describe(self):
         print("PlateBoundingBox")
-        print("xml_path: {}".format(self.xml_path))
-        print("image_name: {}".format(self.image_name))
-        print("image_width: {}".format(self.image_width))
-        print("image_height: {}".format(self.image_height))
         print("xmin: {}".format(self.xmin))
         print("ymin: {}".format(self.ymin))
         print("xmax: {}".format(self.xmax))
         print("ymax: {}".format(self.ymax))
         print("width: {}".format(self.width))
         print("height: {}".format(self.height))
+        print("width01: {}".format(self.width01))
+        print("height01: {}".format(self.height01))
+        print("center01: {}".format(self.center01))
         print("center: {}".format(self.center))
         print("area: {}".format(self.area))
         print("")
