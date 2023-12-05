@@ -49,7 +49,7 @@ class Yolo:
         for output in outputs:
             for detection in output:
                 scores = detection[5:]
-                classID = np.argmax(scores)
+                classID = 0 #np.argmax(scores)
                 confidence = scores[classID]
 
                 box = detection[:4] * np.array([w, h, w, h])
