@@ -40,9 +40,6 @@ class Yolo:
                 scores = detection[5:]
                 classID = np.argmax(scores)
                 confidence = scores[classID]
-                
-                if confidence <= 0.5:
-                    continue
 
                 box = detection[:4] * np.array([w, h, w, h])
                 (centerX, centerY, width, height) = box.astype("int")
@@ -56,17 +53,15 @@ class Yolo:
         indices = cv.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
 
         bboxes = []
-        result_confidences = []
         for i in indices:
             bboxes.append(boxes[i])
-            result_confidences.append(confidences[i])
 
-        return bboxes, result_confidences
+        return bboxes
 
     @staticmethod
     def demo(image_path: str):
         yolo = Yolo()
-        bboxes, confidences = yolo.find_bboxes(image_path)
+        bboxes = yolo.find_bboxes(image_path)
         img = cv.imread(image_path)
         
         for i, box in enumerate(bboxes):
@@ -75,8 +70,6 @@ class Yolo:
             w = box[2]
             h = box[3]
             cv.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            label = "{}: {:.4f}".format('License Plate', confidences[i])
-            cv.putText(img, label, (x, y - 5), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
 
         plt.imshow(img[:,:,::-1])
         plt.show()
