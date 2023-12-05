@@ -32,8 +32,7 @@ class Yolo:
 
         print("Yolo initialized.")
 
-    def find_bboxes(self, image_path: str):
-        raw_img = cv.imread(image_path)
+    def find_bboxes(self, raw_img):
         blob = cv.dnn.blobFromImage(
             raw_img, 1/255.0, self.dims, swapRB=True, crop=False)
 
@@ -43,14 +42,12 @@ class Yolo:
 
         boxes = []
         confidences = []
-        classIDs = []
         h, w = raw_img.shape[:2]
 
         for output in outputs:
             for detection in output:
                 scores = detection[5:]
-                classID = 0 #np.argmax(scores)
-                confidence = scores[classID]
+                confidence = scores[0] # 0 because there is only one class: license plate
 
                 box = detection[:4] * np.array([w, h, w, h])
                 (centerX, centerY, width, height) = box.astype("int")
@@ -59,20 +56,16 @@ class Yolo:
                 box = [x, y, int(width), int(height)]
                 boxes.append(box)
                 confidences.append(float(confidence))
-                classIDs.append(classID)
 
         indices = cv.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
 
-        bboxes = []
-        for i in indices:
-            bboxes.append(boxes[i])
-
-        return bboxes
+        return [boxes[i] for i in indices]
 
     @staticmethod
     def demo(image_path: str):
         yolo = Yolo()
-        bboxes = yolo.find_bboxes(image_path)
+        img = cv.imread(image_path)
+        bboxes = yolo.find_bboxes(img)
         img = cv.imread(image_path)
 
         for i, box in enumerate(bboxes):
