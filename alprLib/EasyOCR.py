@@ -9,8 +9,9 @@ class Reader:
         print("EasyOCR initialized.")
 
     def read(self, img: np.ndarray) -> str:
-        result = self.reader.recognize(img, batch_size=5, allowlist=self.allowed_chars, detail=0)
-        if len(result) == 0:
-            return ""
-        else:
-            return result[0]
+        results = self.reader.readtext(img, batch_size=5, allowlist=self.allowed_chars, detail=0)
+
+        # fatser, but less accurate
+        #result = self.reader.recognize(img, batch_size=5, allowlist=self.allowed_chars, detail=0)
+
+        return "".join(results)

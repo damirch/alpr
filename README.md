@@ -18,6 +18,8 @@ Step 2: Extract the license plate from the image using homography.
 
 - see the `̀detection.ipynb` notebook.
 
-Step 3: Recognize the license plate using Tesseract OCR.
+Step 3: Recognize the license plate using Easy OCR.
 
 - Coming soon.
+
+- If we need to train an OCR model, this dataset is interesting https://universe.roboflow.com/yashwanthworkspace/numbers-identification
