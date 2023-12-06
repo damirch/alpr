@@ -8,6 +8,8 @@ We use the following dataset: https://www.kaggle.com/datasets/andrewmvd/car-plat
 
 Additional dataset for EU plates: https://github.com/RobertLucian/license-plate-dataset
 
+Additional dataset for FR plates: https://github.com/qanastek/FrenchLicencePlateDataset
+
 Images with problem: 10, 101, 185
 
 Step 1: Detect the license plate in the image using Yolo Tiny v4.

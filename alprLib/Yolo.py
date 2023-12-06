@@ -2,13 +2,16 @@ import cv2 as cv
 import numpy as np
 from matplotlib import pyplot as plt
 import sys
+import os
+
+YOLO_PATH = "../yolo_weights/eu_dataset_256_160_extended/"
 
 
 class Yolo:
     def __init__(
         self,
-        weight_path="../yolo_weights/eu_dataset_256_160/yolov4-tiny_best_eudataset_downsampled.weights",
-        config_path="../yolo_weights/eu_dataset_256_160/yolov4-tiny_downsampled.cfg",
+        weight_path=os.path.join(YOLO_PATH, "yolov4-tiny.weights"),
+        config_path=os.path.join(YOLO_PATH, "yolov4-tiny.cfg"),
         dims=(256, 160),
     ):
 
