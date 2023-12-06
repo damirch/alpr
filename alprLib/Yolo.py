@@ -60,6 +60,39 @@ class Yolo:
         indices = cv.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
 
         return [boxes[i] for i in indices]
+    
+    def draw_bboxes_video(self, input_path: str, output_path: str):
+        """Draws bounding boxes on the video and saves it to the same directory as the video. (MP4)"""
+        cap = cv.VideoCapture(input_path) 
+  
+        output = cv.VideoWriter(output_path,
+                                cv.VideoWriter_fourcc(*"mp4v"),
+                                30,
+                                (int(cap.get(3)), int(cap.get(4))))
+
+        frame_counter = 0
+    
+        while(True): 
+            ret, frame = cap.read() 
+            if(ret): 
+                
+                # draw yolo bounding boxes
+                bboxes = self.find_bboxes(frame)
+                for box in bboxes:
+                    x, y, w, h = box
+                    cv.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+                # writing the new frame in output 
+                output.write(frame) 
+            else: 
+                break
+
+            frame_counter += 1
+            if frame_counter % 100 == 0:
+                print(frame_counter)
+
+        output.release() 
+        cap.release() 
 
     @staticmethod
     def demo(image_path: str):
