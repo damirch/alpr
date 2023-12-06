@@ -10,6 +10,8 @@ Additional dataset for EU plates: https://github.com/RobertLucian/license-plate-
 
 Additional dataset for FR plates: https://github.com/qanastek/FrenchLicencePlateDataset
 
+Additional plates: https://huggingface.co/datasets/khaclinh/pp4av
+
 Images with problem: 10, 101, 185
 
 Step 1: Detect the license plate in the image using Yolo Tiny v4.

@@ -22,8 +22,6 @@ class PlateBoundingBox:
         xml_path = xml_path
         tree = ET.parse(xml_path)
         root = tree.getroot()
-
-        image_name = root.find('filename').text
         
         bboxes = []
         for obj in root.findall('object'):
