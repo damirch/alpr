@@ -12,16 +12,27 @@ class Reader:
             print("using tesseract OCR...")
         self.use_tesseract = use_tesseract
         self.reader = easyocr.Reader(['en'])
-        self.allowed_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 "
+        self.allowed_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789- "
 
         if not use_tesseract:
             print("EasyOCR initialized.")
         else:
             print("tesseract OCR initialized.")
 
+        print("Initializing super resolution...")
+        self.sr = cv2.dnn_superres.DnnSuperResImpl_create()
+        self.sr.readModel("./super_resolution/ESPCN_x4.pb")
+        self.sr.setModel("espcn", 4)
+        print("Super resolution initialized.")
+
     def read(self, img: np.ndarray) -> str:
+        import time
+        t0 = time.time()
+        upscaled = self.sr.upsample(img)
+        print(f"upscaled in {time.time() - t0}s")
+
         # preprocess
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        gray = cv2.cvtColor(upscaled, cv2.COLOR_BGR2GRAY)
 
         # histogram equalization
         gray = cv2.equalizeHist(gray)
@@ -44,11 +55,18 @@ class Reader:
         plt.show()
 
         if not self.use_tesseract:
-            results = self.reader.readtext(gray, batch_size=5, allowlist=self.allowed_chars)
+            results = self.reader.readtext(gray, allowlist=self.allowed_chars)
             # fatser, but less accurate
             #result = self.reader.recognize(gray, batch_size=5, allowlist=self.allowed_chars, detail=0)
         else:
             return pytesseract.image_to_string(gray, config=r'--oem 3 --psm 6')
 
-        
-        return "".join([result[1] for result in results])
+        print(results)
+
+        # sort results by result[0][0] (x coordinate)
+        results = sorted(results, key=lambda result: result[0][0])
+
+        plate_reading = "".join([result[1] for result in results])
+
+        # strip result from - and spaces
+        return plate_reading.replace("-", "").replace(" ", "")
