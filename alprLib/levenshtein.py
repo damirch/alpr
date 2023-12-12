@@ -1,7 +1,7 @@
-def levenstein(str1: str, str2: str) -> int:
-    """Calculates the Levenstein distance between two strings."""
+def levenshtein(str1: str, str2: str) -> int:
+    """Calculates the levenshtein distance between two strings."""
     if len(str1) < len(str2):
-        return levenstein(str2, str1)
+        return levenshtein(str2, str1)
     if len(str2) == 0:
         return len(str1)
     previous_row = range(len(str2) + 1)
@@ -19,9 +19,9 @@ if __name__ == "__main__":
     # take 2 positional arguments
     import sys
     if len(sys.argv) < 3:
-        print("Usage: python3 levenstein.py <string1> <string2>")
+        print("Usage: python3 levenshtein.py <string1> <string2>")
         exit(1)
 
     str1 = sys.argv[1]
     str2 = sys.argv[2]
-    print(levenstein(str1, str2))
+    print(levenshtein(str1, str2))
