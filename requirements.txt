@@ -1,0 +1,5 @@
+opencv-python
+opencv-contrib-python
+pytesseract
+easyocr
+python-Levenshtein
