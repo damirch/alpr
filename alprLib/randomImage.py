@@ -12,9 +12,18 @@ def random_image_path():
 if __name__ == "__main__":
     import cv2
     from Yolo import Yolo
+    from TextOCR import Reader
     from matplotlib import pyplot as plt
 
     yolo = Yolo()
+
+    # if there is one argument, use it as use_tesseract
+    import sys
+    if len(sys.argv) == 2:
+        reader = Reader(use_tesseract=sys.argv[1])
+    else:
+        reader = Reader()
+
     img = cv2.imread(random_image_path())
     
     bboxes = yolo.find_bboxes(img)
@@ -22,6 +31,10 @@ if __name__ == "__main__":
 
     for box in bboxes:
         x, y, w, h = box
+        plt.imshow(img[y:y+h, x:x+w, ::-1])
+        plt.show()
+        if w > 70:
+            cv2.putText(img, reader.read(img[y:y+h, x:x+w]), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
         cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
     plt.imshow(img[:, :, ::-1])
