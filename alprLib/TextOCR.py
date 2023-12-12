@@ -26,10 +26,10 @@ class Reader:
         print("Super resolution initialized.")
 
     def read(self, img: np.ndarray) -> str:
-        import time
-        t0 = time.time()
+        #import time
+        #t0 = time.time()
         upscaled = self.sr.upsample(img)
-        print(f"upscaled in {time.time() - t0}s")
+        #print(f"upscaled in {time.time() - t0}s")
 
         # preprocess
         gray = cv2.cvtColor(upscaled, cv2.COLOR_BGR2GRAY)
@@ -51,8 +51,8 @@ class Reader:
         # threshold
         #gray = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
 
-        plt.imshow(gray, cmap="gray")
-        plt.show()
+        #plt.imshow(gray, cmap="gray")
+        #plt.show()
 
         if not self.use_tesseract:
             results = self.reader.readtext(gray, allowlist=self.allowed_chars)
