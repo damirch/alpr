@@ -2,6 +2,7 @@ import easyocr
 import numpy as np
 import cv2
 import pytesseract
+from matplotlib import pyplot as plt
 
 class Reader:
     def __init__(self, use_tesseract: bool = False) -> None:
@@ -18,25 +19,29 @@ class Reader:
         else:
             print("tesseract OCR initialized.")
 
-    def read(self, img: np.ndarray, preprocess: bool = True) -> str:
+    def read(self, img: np.ndarray) -> str:
         # preprocess
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-        if preprocess:
-            # sharpen
-            kernel = np.array([[-1,-1,-1], [-1,9,-1], [-1,-1,-1]])
-            gray = cv2.filter2D(gray, -1, kernel)
+        # histogram equalization
+        gray = cv2.equalizeHist(gray)
 
-            # max width is 128, but keep aspect ratio
-            scale = 128 / gray.shape[1]
-            gray = cv2.resize(gray, (0, 0), fx=scale, fy=scale)
+        # sharpen
+        #kernel = np.array([[-1,-1,-1], [-1,9,-1], [-1,-1,-1]])
+        #gray = cv2.filter2D(gray, -1, 0.2 * kernel)
 
-            # Gaussian filter
-            gray = cv2.GaussianBlur(gray, (3, 3), 0)
+        # max width is 128, but keep aspect ratio
+        #scale = 128 / gray.shape[1]
+        #gray = cv2.resize(gray, (0, 0), fx=scale, fy=scale)
 
-            # threshold
-            gray = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+        # Gaussian filter
+        #gray = cv2.GaussianBlur(gray, (3, 3), 0)
 
+        # threshold
+        #gray = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+
+        plt.imshow(gray, cmap="gray")
+        plt.show()
 
         if not self.use_tesseract:
             results = self.reader.readtext(gray, batch_size=5, allowlist=self.allowed_chars)
