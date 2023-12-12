@@ -4,7 +4,7 @@ This is the repository of our final project for the X-INF573 course at École Po
 
 The goal was to perform realtime automatic european license plate recognition on a video stream in order to match the license plates with a list of potential targets.
 
-![Banner](image.png)
+![Banner](image-1.png)
 
 ## Dataset
 
