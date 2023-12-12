@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 import sys
 import os
 
-YOLO_PATH = "../yolo_weights/eu_dataset_256_160_extended/"
+YOLO_PATH = "../yolo_weights/eu_dataset_256_160_extended2_10k/"
 
 
 class Yolo:
