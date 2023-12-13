@@ -21,15 +21,18 @@ class Reader:
 
         print("Initializing super resolution...")
         self.sr = cv2.dnn_superres.DnnSuperResImpl_create()
-        self.sr.readModel("./super_resolution/ESPCN_x4.pb")
-        self.sr.setModel("espcn", 4)
+        self.sr.readModel("./super_resolution/ESPCN_x2.pb")
+        self.sr.setModel("espcn", 2)
         print("Super resolution initialized.")
 
     def read(self, img: np.ndarray) -> str:
-        #import time
-        #t0 = time.time()
-        upscaled = self.sr.upsample(img)
-        #print(f"upscaled in {time.time() - t0}s")
+        # if image is too small, upscale it (w < 128)
+        if img.shape[1] < 128:
+            #t0 = time.time()
+            upscaled = self.sr.upsample(img)
+            #print(f"upscaled in {time.time() - t0}s")
+        else:
+            upscaled = img
 
         # preprocess
         gray = cv2.cvtColor(upscaled, cv2.COLOR_BGR2GRAY)
