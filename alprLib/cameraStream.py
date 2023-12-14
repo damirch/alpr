@@ -5,7 +5,7 @@ import datetime
 from Yolo import Yolo
 from TextOCR import Reader
     
-def stream():
+def stream(saveToDisk=False):
     # create display window
     cv2.namedWindow("webcam", cv2.WINDOW_NORMAL)
 
@@ -24,6 +24,13 @@ def stream():
     # initialize time and frame count variables
     last_time = datetime.datetime.now()
     frames = 0
+
+
+    output = cv2.VideoWriter("outputCam.mp4",
+                            cv2.VideoWriter_fourcc(*"mp4v"),
+                            30,
+                            (int(cap.get(3)), int(cap.get(4))))
+
 
     yolo = Yolo()
     reader = Reader()
@@ -55,6 +62,10 @@ def stream():
         cv2.putText(img, 'FPS: ' + str(cur_fps), (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
         cv2.imshow("webcam", img)
 
+        # write to disk
+        if saveToDisk:
+            output.write(img)
+
         # wait 1ms for ESC to be pressed
         key = cv2.waitKey(1)
         if (key == 27):
@@ -64,6 +75,14 @@ def stream():
     cv2.destroyAllWindows()
     cap.release()
 
+    if saveToDisk:
+        output.release()
+
 
 if __name__ == "__main__":
-    stream()
+    # first argument is saveToDisk
+    import sys
+    if len(sys.argv) == 2:
+        stream(saveToDisk=sys.argv[1])
+    else:
+        stream()
