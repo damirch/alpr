@@ -46,7 +46,6 @@ For offline processing, one video is available in the `testVideos` folder. You c
 python3 videoToVideo.py testVideos/test.mp4 testVideos/test_out.mp4
 ```
 
-
 ### Plate detection
 
 We trained a highly performant and accurate YoloV4 Tiny model to detect license plates in images.
@@ -58,6 +57,8 @@ Our model was trained on google colab using this notebook: https://colab.researc
 ### Plate extraction
 
 Perspective correction and upscaling can be used independently using `alprLib/Perspective.py` and `alprLib/upscale.py`. Upscaling models are available in the `alprLib/super_resolution` folder.
+
+More details about the perspective correction can be found in the `warpPerspective` folder.
 
 ### Plate recognition
 
