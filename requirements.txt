@@ -3,3 +3,6 @@ opencv-contrib-python
 pytesseract
 easyocr
 python-Levenshtein
+tqdm
+numpy
+pandas

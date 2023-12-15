@@ -16,6 +16,10 @@ French license plates: https://github.com/qanastek/FrenchLicencePlateDataset
 
 PP4AV (Paris + Strasbourg): https://huggingface.co/datasets/khaclinh/pp4av
 
+## Dependencies
+
+You can install the necessary dependencies using `pip install -r requirements.txt` in a virtual environment.
+
 ## Features
 
 ### Image processing
