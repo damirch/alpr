@@ -18,6 +18,31 @@ PP4AV (Paris + Strasbourg): https://huggingface.co/datasets/khaclinh/pp4av
 
 ## Features
 
+### Image processing
+
+To process a single image, use `alprLib/singleImage.py` like this:
+
+```sh
+python3 singleImage.py <path_to_image>
+```
+
+The `testImages` folder contains some images you can use to test the script.
+
+### Video processing
+
+You can process videos both in an offline and realtime fashion. 
+
+- For realtime processing use `alprLib/cameraStream.py`
+
+- For offline processing use `alprLib/videoToVideo.py`
+
+For offline processing, one video is available in the `testVideos` folder. You can process it like this:
+
+```sh
+python3 videoToVideo.py testVideos/test.mp4 testVideos/test_out.mp4
+```
+
+
 ### Plate detection
 
 We trained a highly performant and accurate YoloV4 Tiny model to detect license plates in images.
@@ -27,6 +52,8 @@ The model is abstracted in the `Yolo` class inside `alprLib/yolo.py`. Alternativ
 Our model was trained on google colab using this notebook: https://colab.research.google.com/drive/1zi0m3pE3KcWyKATRhqo4wTCSqglzLG3u?usp=sharing You can use it to train your own model.
 
 ### Plate extraction
+
+Perspective correction and upscaling can be used independently using `alprLib/Perspective.py` and `alprLib/upscale.py`. Upscaling models are available in the `alprLib/super_resolution` folder.
 
 ### Plate recognition
 
