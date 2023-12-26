@@ -12,7 +12,9 @@ class Reader:
             print("using tesseract OCR...")
         self.use_tesseract = use_tesseract
         self.reader = easyocr.Reader(['en'])
-        self.allowed_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789- "
+        
+        # License plates only contain alphanumeric characters except I O U (because reasons in France)
+        self.allowed_chars = "ABCDEFGHJKLMNPQRSTVWXYZ0123456789- "
 
         if not use_tesseract:
             print("EasyOCR initialized.")
